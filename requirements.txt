@@ -1,0 +1,6 @@
+streamlit
+pandas
+numpy
+altair
+tensorflow-cpu
+h5py
