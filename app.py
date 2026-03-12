@@ -96,6 +96,14 @@ if model is None or tokenizer is None:
     st.error("⚠️ Model veya tokenizer yüklenemedi. Lütfen dosyaları kontrol edin.")
     st.stop()
 
+
+def calibrate(raw):
+    star = (raw * 4) + 1
+    if star >= 3.5:
+        return min(star + 0.7, 5.0)
+    elif star >= 2.5:
+        return star + 0.3
+    return star
 # --- TABS ---
 tab1, tab2 = st.tabs(["⚡ Quick Scan", "📂 Upload Excel"])
 
@@ -111,19 +119,7 @@ with tab1:
                 seq = tokenizer.texts_to_sequences([user_input])
                 pad = pad_sequences(seq, maxlen=100, padding="post", truncating="post")
                 pred = model.predict(pad, verbose=0)[0][0]
-                def calibrate(raw_score):
-                    star_score = (raw_score * 4) + 1
-    
-                    if star_score >= 3.5:
-                      calibrated = min(star_score + 0.7, 5.0)
-                    elif star_score >= 2.5:
-                      calibrated = star_score + 0.3
-                    else:
-                      calibrated = star_score
-    
-                    return calibrated
-
-               star_score = calibrate(raw_score)
+                score = np.clip(calibrate(pred), 1, 5)
                 
                 if score >= 4.0: 
                     color, text, icon = "#68B984", "AMAZING", "😍"
@@ -186,5 +182,6 @@ with tab2:
         except Exception as e: 
 
             st.error(f"Error reading file: {e}")
+
 
 
