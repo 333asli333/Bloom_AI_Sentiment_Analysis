@@ -146,7 +146,7 @@ with tab2:
             else: 
                 df = pd.read_excel(uploaded_file)
             
-            text_col = "text" if "text" in df.columns else df.columns[0]
+            text_col = st.selectbox("Select the review column", df.columns)
             
             if st.button("Analyze All Reviews 🚀"):
                 progress_bar = st.progress(0)
@@ -183,6 +183,7 @@ with tab2:
         except Exception as e: 
 
             st.error(f"Error reading file: {e}")
+
 
 
 
