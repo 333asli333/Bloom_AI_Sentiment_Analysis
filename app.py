@@ -96,11 +96,12 @@ if model is None or tokenizer is None:
     st.error("⚠️ Model veya tokenizer yüklenemedi. Lütfen dosyaları kontrol edin.")
     st.stop()
 
-
 def calibrate(raw):
     star = (raw * 4) + 1
-    if star >= 3.5:
-        return min(star + 0.5, 5.0)
+    if star >= 4.0:
+        return min(star + 0.4, 5.0)
+    elif star >= 3.5:
+        return star + 0.2
     elif star >= 2.5:
         return star + 0.1
     return star
@@ -182,6 +183,7 @@ with tab2:
         except Exception as e: 
 
             st.error(f"Error reading file: {e}")
+
 
 
 
