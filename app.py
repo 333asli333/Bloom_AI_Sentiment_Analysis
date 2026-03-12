@@ -100,9 +100,9 @@ if model is None or tokenizer is None:
 def calibrate(raw):
     star = (raw * 4) + 1
     if star >= 3.5:
-        return min(star + 0.7, 5.0)
+        return min(star + 0.5, 5.0)
     elif star >= 2.5:
-        return star + 0.3
+        return star + 0.1
     return star
 # --- TABS ---
 tab1, tab2 = st.tabs(["⚡ Quick Scan", "📂 Upload Excel"])
@@ -182,6 +182,7 @@ with tab2:
         except Exception as e: 
 
             st.error(f"Error reading file: {e}")
+
 
 
 
