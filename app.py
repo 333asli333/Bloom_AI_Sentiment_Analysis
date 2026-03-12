@@ -111,7 +111,15 @@ with tab1:
                 seq = tokenizer.texts_to_sequences([user_input])
                 pad = pad_sequences(seq, maxlen=100, padding="post", truncating="post")
                 pred = model.predict(pad, verbose=0)[0][0]
-                score = np.clip((pred * 4) + 1, 1, 5)
+                def calibrate(raw):
+    star = (raw * 4) + 1
+    if star >= 3.5:
+        return min(star + 0.7, 5.0)
+    elif star >= 2.5:
+        return star + 0.3
+    return star
+
+score = np.clip(calibrate(pred), 1, 5)
                 
                 if score >= 4.0: 
                     color, text, icon = "#68B984", "AMAZING", "😍"
@@ -145,7 +153,7 @@ with tab2:
                 seqs = tokenizer.texts_to_sequences(texts)
                 padded = pad_sequences(seqs, maxlen=100, padding="post", truncating="post")
                 preds = model.predict(padded, verbose=0)
-                final_scores = np.clip((preds * 4) + 1, 1, 5).flatten()
+                final_scores = np.array([np.clip(calibrate(p[0]), 1, 5) for p in preds])
                 df['AI_Score'] = final_scores
                 df['Sentiment'] = pd.cut(df['AI_Score'], bins=[0, 2.5, 3.9, 6], labels=['Negative 👎', 'Neutral 🤔', 'Positive 😍'])
                 progress_bar.progress(100)
@@ -172,4 +180,5 @@ with tab2:
                 bad_reviews = df[df['AI_Score'] < 2.5][['AI_Score', text_col]].sort_values(by='AI_Score')
                 st.dataframe(bad_reviews, use_container_width=True)
         except Exception as e: 
+
             st.error(f"Error reading file: {e}")
