@@ -142,7 +142,7 @@ with tab2:
     if uploaded_file:
         try:
             if uploaded_file.name.endswith('.csv'): 
-                df = pd.read_csv(uploaded_file)
+                df = pd.read_csv(uploaded_file, encoding='latin-1')
             else: 
                 df = pd.read_excel(uploaded_file)
             
@@ -183,6 +183,7 @@ with tab2:
         except Exception as e: 
 
             st.error(f"Error reading file: {e}")
+
 
 
 
