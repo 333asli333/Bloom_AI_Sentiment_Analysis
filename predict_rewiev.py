@@ -36,7 +36,19 @@ predictions = model.predict(padded)
 print("-" * 50)
 for i, comment in enumerate(texts):
     raw_score = predictions[i][0] # 0 ile 1 arasındaki ham puan
-    star_score = (raw_score * 4) + 1 # 1 ile 5 arasına çevrilmiş puan
+    def calibrate(raw_score):
+    star_score = (raw_score * 4) + 1
+    
+    if star_score >= 3.5:
+        calibrated = min(star_score + 0.7, 5.0)
+    elif star_score >= 2.5:
+        calibrated = star_score + 0.3
+    else:
+        calibrated = star_score
+    
+    return calibrated
+
+star_score = calibrate(raw_score)
     
     print(f"Yorum: {comment[:60]}...") # Yorumun başını göster
     print(f"Modelin Ham Çıktısı (0-1): {raw_score:.4f}")
@@ -45,4 +57,5 @@ for i, comment in enumerate(texts):
     
     bar = "★" * int(round(star_score)) + "☆" * (5 - int(round(star_score)))
     print(f"Görsel: {bar}")
+
     print("-" * 60)
