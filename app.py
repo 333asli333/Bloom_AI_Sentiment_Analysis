@@ -112,18 +112,18 @@ with tab1:
                 pad = pad_sequences(seq, maxlen=100, padding="post", truncating="post")
                 pred = model.predict(pad, verbose=0)[0][0]
                 def calibrate(raw_score):
-                   star_score = (raw_score * 4) + 1
+                    star_score = (raw_score * 4) + 1
     
-                   if star_score >= 3.5:
+                    if star_score >= 3.5:
                       calibrated = min(star_score + 0.7, 5.0)
-                  elif star_score >= 2.5:
+                    elif star_score >= 2.5:
                       calibrated = star_score + 0.3
-                  else:
+                    else:
                       calibrated = star_score
     
-                  return calibrated
+                    return calibrated
 
-                star_score = calibrate(raw_score)
+               star_score = calibrate(raw_score)
                 
                 if score >= 4.0: 
                     color, text, icon = "#68B984", "AMAZING", "😍"
@@ -186,4 +186,5 @@ with tab2:
         except Exception as e: 
 
             st.error(f"Error reading file: {e}")
+
 
