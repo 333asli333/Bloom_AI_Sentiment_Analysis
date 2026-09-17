@@ -1,5 +1,7 @@
 # 🌸 Bloom AI | Sentiment Analysis & Scoring Platform
 
+🟢 **[Canlı uygulama / Live app](https://bloomaisentimentanalysis-6ea8crdbwrdb8jhwjxdvxo.streamlit.app)** · 👩‍💻 [Portfolyo / Portfolio](https://aisli.dev)
+
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?style=for-the-badge&logo=tensorflow&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
